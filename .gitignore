@@ -1,0 +1,8 @@
+# Local workflow notes and review artifacts
+.DS_Store
+CLAUDE.md
+brief.txt
+tools/
+review*.html
+login-preview.png
+*.pdf

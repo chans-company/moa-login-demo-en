@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23385949'/%3E%3C/svg%3E">
+<title>MOA — Sign in</title>
+<style>
+:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;color:#dbe0e9;background:#171a22}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:32px}main{width:min(100%,390px);border:1px solid #3b4050;background:#20242f;border-radius:8px;padding:30px}.intro{border-bottom:1px solid #3b4050;margin-bottom:26px;padding-bottom:18px}.brand{font-size:22px;font-weight:700}.intro h2,.intro p,.stack,.fine,.mark{display:none}h1{margin:0 0 8px;font-size:24px}.subtitle{margin:0 0 26px;color:#8b94a7;font-size:13px}label{display:block;font-size:13px;margin-bottom:8px}.field{margin-bottom:20px}input{width:100%;height:44px;border:1px solid #444b5f;background:#181c26;color:#e8ebf1;border-radius:5px;padding:0 12px;font:inherit;font-size:14px;min-width:0}.password{display:flex}.password input{border-radius:5px 0 0 5px}.password button{border:1px solid #444b5f;border-left:0;background:#2e3444;color:#c3cada;padding:0 12px;border-radius:0 5px 5px 0;cursor:pointer}.forgot{display:block;text-align:right;color:#a0b3da;font-size:12px;margin:-6px 0 24px;text-decoration:none}.submit{width:100%;height:44px;border:0;border-radius:5px;background:#53698f;color:white;font:inherit;font-weight:600;font-size:14px;cursor:pointer}.signup{display:block;text-align:center;color:#a0b3da;font-size:13px;margin-top:20px;text-decoration:none}.demo{display:block;border-top:1px solid #3b4050;margin-top:26px;padding-top:18px;font-size:10px;color:#7f899e;text-align:center}.error{color:#ffc2b9;font-size:12px;line-height:1.5}.success{text-align:center}.success .badge{font-size:40px;margin:30px}.success p{font-size:14px;line-height:1.8;color:#aab3c3}[hidden]{display:none!important}
+</style>
+<main>
+  <section class="intro">
+    <div class="brand"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>MOA</div>
+    <h2>Bring it together.<br>Make room for more.</h2>
+    <p>From your first idea to your next task.<br>A little more clarity, all in one place.</p>
+    <div class="stack"><div class="mini"><span class="check">✓</span> Your day, at a glance</div><div class="mini"><span class="check">✓</span> Small wins, shared</div></div>
+    <span class="fine">A little more room in your day.</span>
+  </section>
+  <section class="panel">
+    <div id="login-view">
+      <h1>Sign in</h1>
+      <p class="subtitle">Enter your email and password.</p>
+      <form id="login-form" novalidate>
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" placeholder="name@example.com" autocomplete="off"></div>
+        <div class="field"><label for="password">Password</label><div class="password"><input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="off"><button id="show-password" type="button" aria-label="Show password" aria-pressed="false">Show</button></div></div>
+        <a class="forgot" id="forgot-link" href="#password-help">Reset password</a>
+        <p class="error" id="error" role="alert" hidden></p>
+        <button class="submit" id="login-button" type="submit">Sign in</button>
+        <a class="signup" id="signup-link" href="#signup">Sign up</a>
+      </form>
+    </div>
+    <div id="success-view" class="success" hidden><div class="badge">✓</div><h1>You are all set</h1><p>The form works as expected.<br>This is a preview, not a real sign-in.</p><button type="button" class="submit" id="back-button">Back to sign in</button></div>
+    <span class="demo">Demo screen · your details are never saved</span>
+  </section>
+</main>
+<script>
+  const form = document.getElementById('login-form');
+  const email = document.getElementById('email');
+  const password = document.getElementById('password');
+  const error = document.getElementById('error');
+  const show = document.getElementById('show-password');
+  const alertMessage = message => { error.textContent = message; error.hidden = false; };
+  show.addEventListener('click', () => {
+    const visible = password.type === 'password';
+    password.type = visible ? 'text' : 'password';
+    show.textContent = visible ? 'Hide' : 'Show';
+    show.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
+    show.setAttribute('aria-pressed', String(visible));
+  });
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!email.value.trim()) return alertMessage('Please enter your email.');
+    if (!email.validity.valid) return alertMessage('Please enter a valid email address.');
+    if (!password.value) return alertMessage('Please enter your password.');
+    error.hidden = true;
+    document.getElementById('login-view').hidden = true;
+    document.getElementById('success-view').hidden = false;
+  });
+  document.getElementById('back-button').addEventListener('click', () => {
+    form.reset(); password.type = 'password'; show.textContent = 'Show';
+    show.setAttribute('aria-label', 'Show password'); show.setAttribute('aria-pressed', 'false');
+    document.getElementById('login-view').hidden = false;
+    document.getElementById('success-view').hidden = true;
+  });
+  document.getElementById('forgot-link').addEventListener('click', event => { event.preventDefault(); alertMessage('Password reset will be connected in a future update.'); });
+  document.getElementById('signup-link').addEventListener('click', event => { event.preventDefault(); alertMessage('Account creation will be connected in a future update.'); });
+</script>
+</html>
